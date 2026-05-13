@@ -252825,6 +252825,6 @@ module.exports = module.bundle.resolve("notebook-app.290a108e.html") + "?" + Dat
 },{}],"170CW":[function(require,module,exports,__globalThis) {
 module.exports = module.bundle.resolve("service-worker.js");
 
-},{}]},["fMAWC","gH3Lb"], "gH3Lb", "parcelRequire6a0b", {}, "./", "/notebook/")
+},{}]},["fMAWC","gH3Lb"], "gH3Lb", "parcelRequire6a0b", {}, "./", "/")
 
 //# sourceMappingURL=notebook.20379891.js.map
