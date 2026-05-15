@@ -12,6 +12,7 @@
   .notebook-app-actions {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
     align-items: center;
@@ -42,4 +43,9 @@ button {
   color: var(--ui-color);
   background-color: var(--bg-color);
   font-size: var(--font-size);
+}
+
+.about {
+  text-decoration: none;
+  color: black;
 }

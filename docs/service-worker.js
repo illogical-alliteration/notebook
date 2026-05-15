@@ -207,7 +207,7 @@
       });
     }
   }
-})({"bUigu":[function(require,module,exports,__globalThis) {
+})({"2aPHh":[function(require,module,exports,__globalThis) {
 var _serviceWorker = require("@parcel/service-worker");
 const manifest = [
     "/index.html",
@@ -304,6 +304,12 @@ const manifest = [
     "/notebook-actions.128150c0.js",
     "/notebook-app.dc1ec556.css",
     "/notebook-app.290a108e.html",
+    "/about.html",
+    "/licenses.html",
+    "/licenses.6a30ba34.js",
+    "/privacy.policy.html",
+    "/privacy.policy.5ee8b051.js",
+    "/about.9bc0e348.js",
     "/notebook-app.22e95b4a.js"
 ];
 const version = "22826600";
@@ -353,11 +359,11 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"iuhNO":[function(require,module,exports,__globalThis) {
+},{}],"5YnFB":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
-var HMR_SERVER_PORT = 32991;
+var HMR_SERVER_PORT = 1234;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "767298212a9fba37";
 var HMR_USE_SSE = false;
@@ -872,6 +878,6 @@ async function activate() {
 }
 addEventListener('activate', e.waitUntil(activate()));
 
-},{"@parcel/service-worker":"lUmb9"}]},["bUigu","iuhNO","hW6Rl"], "hW6Rl", "parcelRequire6a0b", {})
+},{"@parcel/service-worker":"lUmb9"}]},["2aPHh","5YnFB","hW6Rl"], "hW6Rl", "parcelRequire6a0b", {})
 
 //# sourceMappingURL=service-worker.js.map

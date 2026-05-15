@@ -1,5 +1,6 @@
 import { EditorState, Compartment, Prec } from '@codemirror/state';
-import { EditorView, keymap, placeholder} from '@codemirror/view';
+import { EditorView, keymap, placeholder, Decoration, DecorationSet} from '@codemirror/view';
+import { styleTags, Tag } from "@lezer/highlight";
 import { syntaxTree } from '@codemirror/language';
 import { markdown } from '@codemirror/lang-markdown';
 import { indentWithTab, history, insertNewline } from "@codemirror/commands";
