@@ -1,6 +1,6 @@
 {
   "name": "notebook",
-  "version": "0.0.9",
+  "version": "1.1.20",
   "description": "A JS/TS/MD notebook with live markdown fields",
   "keywords": [
     "js",
@@ -13,13 +13,30 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel src/index.html --dist-dir docs",
-    "start": "http-server docs/",
-    "clean": "rm -rf .parcel-cache/ docs/",
-    "build:folder": "parcel build src/index.html --dist-dir docs/notebook/ --public-url /notebook/",
-    "copy:folder": "cp -r ./examples/ ./docs/notebook/. && cp src/notebook/spiral-small.png ./docs/notebook/.",
-    "start:folder": "http-server docs/",
-    "build:publish": "rm -rf .parcel-cache/ docs/* && cp -r examples/ docs/. && npx parcel build src/index.html --dist-dir docs/ --public-url /notebook/"
+    "clean": "rm -rf .parcel-cache dist",
+    "build": "parcel build --public-url /notebook/",
+    "start": "parcel src/index.html --public-url /notebook/"
+  },
+  "targets": {
+    "main": false,
+    "app": {
+      "source": "src/index.html",
+      "distDir": "./dist"
+    }
+  },
+  "pluginOptions": {
+    "staticFiles": {
+      "staticPath": [
+        {
+          "src": "examples",
+          "outDir": "."
+        },
+        {
+          "src": "screenshots",
+          "outDir": "."
+        }
+      ]
+    }
   },
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.16.4",
@@ -28,6 +45,7 @@
     "@parcel/transformer-webmanifest": "^2.16.4",
     "license-checker-rseidelsohn": "^4.4.2",
     "parcel": "^2.16.4",
+    "parcel-reporter-static-files-copy": "^1.5.3",
     "process": "^0.11.10"
   },
   "dependencies": {
