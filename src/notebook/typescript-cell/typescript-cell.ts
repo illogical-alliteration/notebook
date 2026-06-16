@@ -3,7 +3,7 @@ import { EditorState, Compartment } from "@codemirror/state";
 import { keymap, placeholder } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
 import { indentWithTab } from "@codemirror/commands";
-import { NotebookElement } from "../notebook/notebook";
+import { NotebookElement } from "../notebook/notebook.ts";
 import * as ts from "typescript"
 
 let language = new Compartment();

@@ -53,9 +53,9 @@
   "file_handlers": [{
     "action": "/notebook/?open-file",
     "accept": {
-      "application/x-ipynb+json": [".ipynb"],
-      "application/vnd.jupyter": [".ipynb"],
-      "application/json": [".ipynb"]
+      "application/x-ipynb+json": [".ipynb", ".json"],
+      "application/vnd.jupyter": [".ipynb", ".json"],
+      "application/json": [".ipynb", ".json"]
     }
   }],
   "launch_handler": {

@@ -1,4 +1,4 @@
-import { NotebookElement } from "../notebook/notebook";
+import { NotebookElement } from "../notebook/notebook.ts";
 
 export class NotebookAppElement extends HTMLElement {
   qs!: (query: string) => HTMLElement;

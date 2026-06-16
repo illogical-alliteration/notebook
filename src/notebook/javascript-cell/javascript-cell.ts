@@ -3,7 +3,7 @@ import { EditorState, Compartment } from "@codemirror/state";
 import { keymap, placeholder } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
 import { indentWithTab } from "@codemirror/commands";
-import { NotebookElement } from "../notebook/notebook";
+import { NotebookElement } from "../notebook/notebook.ts";
 
 let language = new Compartment();
 let tabSize = new Compartment();
@@ -92,7 +92,7 @@ export class JavascriptCellElement extends HTMLElement {
 
   //#region public methods
   log(...args: string[]){
-    const messages = this.qs('.cell-output.messages');
+    const messages = this.qs('.cell-output.messages')!;
     args.forEach((arg: string) => {
       const p = document.createElement('p');
       p.classList.add('log');
@@ -102,7 +102,7 @@ export class JavascriptCellElement extends HTMLElement {
   }
 
   error(...args: string[]){
-    const messages = this.qs('.cell-output.messages');
+    const messages = this.qs('.cell-output.messages')!;
     args.forEach((arg: string) => {
       const p = document.createElement('p');
       p.classList.add('error');
@@ -139,8 +139,8 @@ export class JavascriptCellElement extends HTMLElement {
     const outputs = [];
 
     // console.log and console.error outputs
-    const messages = this.qsa('.cell-output.messages>*');
-    messages.forEach((p: HTMLElement) => {
+    const messages = this.qsa('.cell-output.messages>*')!;
+    messages.forEach((p: unknown) => {
 
       let output;
       if(p.classList.contains('log')){

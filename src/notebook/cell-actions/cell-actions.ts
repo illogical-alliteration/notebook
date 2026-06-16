@@ -1,6 +1,6 @@
-import { JavascriptCellElement } from "../javascript-cell/javascript-cell";
-import { MarkdownCellElement } from "../markdown-cell/markdown-cell";
-import { TypescriptCellElement } from "../typescript-cell/typescript-cell";
+import { JavascriptCellElement } from "../javascript-cell/javascript-cell.ts";
+import { MarkdownCellElement } from "../markdown-cell/markdown-cell.ts";
+import { TypescriptCellElement } from "../typescript-cell/typescript-cell.ts";
 
 type Runnable = JavascriptCellElement | TypescriptCellElement;
 
