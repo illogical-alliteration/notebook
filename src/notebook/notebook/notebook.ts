@@ -110,7 +110,7 @@ export class NotebookElement extends HTMLElement {
         if(spec.metadata.language === 'typescript') 
           cell = TypescriptCellElement.fromJSON(spec);
 
-        cells.appendChild(cell as HTMLElement);
+        cells.appendChild(cell as any);
       })
     });
   }
