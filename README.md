@@ -24,7 +24,7 @@ Don't forget to give the notebook a title! The header is contenteditable. The no
 git clone https://github.com/verticesandedges/notebook.git
 cd notebook
 npm install
-npm run build
+npm run start
 ```
 
 Enjoy!
