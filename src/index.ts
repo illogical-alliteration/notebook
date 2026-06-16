@@ -18,9 +18,23 @@ window.customElements.define('notebook-app', NotebookAppElement);
 
 if("serviceWorker" in navigator){
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register(new URL('./service-worker.js', import.meta.url), {
+    navigator.serviceWorker
+    .register(new URL('./sw.ts', import.meta.url), {
       scope: "/notebook/",
       type: "module"
+    })
+    .then((registration: ServiceWorkerRegistration) => {
+      console.log("ServiceWorker registration successful with scope: ", registration.scope);
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if(newWorker){
+          newWorker.addEventListener('statechange', () => {
+            if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
+              console.log("New content available! Please refresh.")
+            }
+          })
+        }
+      })
     })
     .catch(error => {
       console.error(`Service Worker registration failed: ${error}`);

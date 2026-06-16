@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.16.4",
+    "@parcel/service-worker": "^2.16.4",
     "@parcel/transformer-inline-string": "^2.16.4",
     "@parcel/transformer-webmanifest": "^2.16.4",
     "license-checker-rseidelsohn": "^4.4.2",
@@ -38,7 +39,6 @@
     "@codemirror/view": "^6.41.1",
     "@lezer/highlight": "^1.2.3",
     "@lezer/markdown": "^1.6.3",
-    "@parcel/service-worker": "^2.16.4",
     "codemirror": "^6.0.2",
     "codemirror-live-markdown": "^0.5.1-alpha.1",
     "katex": "^0.16.45",

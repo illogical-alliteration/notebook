@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target":"es2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    "lib": ["DOM", "DOM.Iterable", "ES2022", "WebWorker"],
+
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}
