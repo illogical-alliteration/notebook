@@ -2,6 +2,7 @@
   "manifest_version": 20,
   "short_name": "Notebook",
   "name": "Javascript Notebook",
+  "id": "net.verticesandedges.apps.twa.notebook",
   "version": "1.1.20",
   "author": "Joshua M. Moore <illogical.alliteration@gmail.com>",
   "developer": {
