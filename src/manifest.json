@@ -77,17 +77,17 @@
   ],
   "screenshots": [
     {
-      "src": "./screenshots/streaming-vega.png",
+      "src": "../screenshots/streaming-vega.png",
       "sizes": "768x2288",
       "type": "image/png"
     },
     {
-      "src": "./screenshots/genetic-programming.png",
+      "src": "../screenshots/genetic-programming.png",
       "sizes": "1128x6286",
       "type": "image/png"
     },
     {
-      "src": "./screenshots/readable.png",
+      "src": "../screenshots/readable.png",
       "sizes": "908x889",
       "type": "image/png"
     }
