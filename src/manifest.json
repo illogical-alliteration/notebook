@@ -31,7 +31,7 @@
       "purpose": "any"
     }
   ],
-  "start_url": "https://apps.verticesandedges.net/notebook/",
+  "start_url": "/notebook/",
   "scope": "/notebook/",
   "display": "standalone",
   "orientation": "any",
