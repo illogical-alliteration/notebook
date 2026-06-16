@@ -1,11 +1,11 @@
-import { CellTypeSelector } from "./notebook/cell-type-selector/cell-type-selector";
-import { MarkdownCellElement } from "./notebook/markdown-cell/markdown-cell";
-import { NotebookElement } from "./notebook/notebook/notebook";
-import { CellActionsElement } from "./notebook/cell-actions/cell-actions";
-import { JavascriptCellElement } from "./notebook/javascript-cell/javascript-cell";
-import { TypescriptCellElement } from "./notebook/typescript-cell/typescript-cell";
-import { NotebookActionsElement } from "./notebook/notebook-actions/notebook-actions";
-import { NotebookAppElement } from "./notebook/notebook-app/notebook-app";
+import { CellTypeSelector } from "./notebook/cell-type-selector/cell-type-selector.ts";
+import { MarkdownCellElement } from "./notebook/markdown-cell/markdown-cell.ts";
+import { NotebookElement } from "./notebook/notebook/notebook.ts";
+import { CellActionsElement } from "./notebook/cell-actions/cell-actions.ts";
+import { JavascriptCellElement } from "./notebook/javascript-cell/javascript-cell.ts";
+import { TypescriptCellElement } from "./notebook/typescript-cell/typescript-cell.ts";
+import { NotebookActionsElement } from "./notebook/notebook-actions/notebook-actions.ts";
+import { NotebookAppElement } from "./notebook/notebook-app/notebook-app.ts";
 
 window.customElements.define("markdown-cell", MarkdownCellElement);
 window.customElements.define("notebook-el", NotebookElement);

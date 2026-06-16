@@ -3,10 +3,12 @@
     "target":"es2022",
     "module": "nodenext",
     "moduleResolution": "nodenext",
-
     "lib": ["DOM", "DOM.Iterable", "ES2022", "WebWorker"],
-
     "strict": true,
+
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+
     "noImplicitAny": true,
     "strictNullChecks": true,
 
