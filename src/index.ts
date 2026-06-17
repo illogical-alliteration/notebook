@@ -17,10 +17,8 @@ window.customElements.define('notebook-actions', NotebookActionsElement);
 window.customElements.define('notebook-app', NotebookAppElement);
 
 if('serviceWorker' in navigator){
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-    .register(new URL('./sw.ts', import.meta.url), {type: "module", scope: "/notebook/"})
-    .then(reg => console.log("Service worker registered", reg.scope))
-    .catch(err => console.error("Service worker registration failed", err));
-  })
+  navigator.serviceWorker
+  .register(new URL('./sw.ts', import.meta.url), {type: "module", scope: "/notebook/"})
+  .then(reg => console.log("Service worker registered", reg.scope))
+  .catch(err => console.error("Service worker registration failed", err));
 }
