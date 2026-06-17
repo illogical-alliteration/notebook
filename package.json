@@ -14,9 +14,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf .parcel-cache dist",
-    "build": "parcel build --public-url /notebook/",
+    "build": "parcel build src/index.html --public-url /notebook/",
     "start": "parcel src/index.html --public-url /notebook/"
   },
+  "serviceWorker": "dist/sw.js",
   "targets": {
     "main": false,
     "app": {

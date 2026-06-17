@@ -16,34 +16,11 @@ window.customElements.define('typescript-cell', TypescriptCellElement);
 window.customElements.define('notebook-actions', NotebookActionsElement);
 window.customElements.define('notebook-app', NotebookAppElement);
 
-if("serviceWorker" in navigator){
-  navigator.serviceWorker
-  .register(new URL('./sw.js', import.meta.url), {
-    scope: "/notebook/",
-    type: "module"
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+    .register(new URL('./sw.ts', import.meta.url), {type: "module", scope: "/notebook/"})
+    .then(reg => console.log("Service worker registered", reg.scope))
+    .catch(err => console.error("Service worker registration failed", err));
   })
-  .then((registration: ServiceWorkerRegistration) => {
-    console.log("ServiceWorker registration successful with scope: ", registration.scope);
-    registration.addEventListener('updatefound', () => {
-      const newWorker = registration.installing;
-      if(newWorker){
-        newWorker.addEventListener('statechange', () => {
-          if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
-            console.log("New content available! Please refresh.")
-          }
-        })
-      }
-    })
-  })
-  .catch(error => {
-    console.error(`Service Worker registration failed: ${error}`);
-  });
-
-  navigator.serviceWorker.ready
-  .then(registration => {
-    navigator.storage.persist();
-  })
-  .catch(error => {
-    console.error(`Service Worker failed to become ready: ${error}`);
-  });
 }
