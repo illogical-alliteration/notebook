@@ -19,7 +19,7 @@
   },
   "serviceWorker": "dist/sw.js",
   "targets": {
-    "main": false,
+    "main": "src/index.html",
     "app": {
       "source": "src/index.html",
       "distDir": "dist/"
