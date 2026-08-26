@@ -1,25 +1,10 @@
-import { EditorState, Compartment, Prec } from '@codemirror/state';
-import { EditorView, keymap, placeholder, Decoration, DecorationSet} from '@codemirror/view';
-import { styleTags, Tag } from "@lezer/highlight";
-import { syntaxTree } from '@codemirror/language';
+import { basicSetup, EditorView } from 'codemirror';
+import { EditorState, Compartment } from '@codemirror/state';
+import { keymap, placeholder } from '@codemirror/view';
 import { markdown } from '@codemirror/lang-markdown';
-import { indentWithTab, history, insertNewline } from "@codemirror/commands";
-import {
-  tableField,
-  tableEditorPlugin,
-  codeBlockField,
-  imageField,
-  linkPlugin,
-  editorTheme,
-  mouseSelectingField,
-  collapseOnSelectionFacet,
-  setMouseSelecting,
-  livePreviewPlugin,
-  markdownStylePlugin,
-  mathPlugin,
-  blockMathField,
-} from 'codemirror-live-markdown';
-let tabSize = new Compartment();
+import { indentWithTab } from '@codemirror/commands';
+import { marked } from 'marked';
+let language = new Compartment, tabSize = new Compartment;
 
 
 export class MarkdownCellElement extends HTMLElement {
@@ -81,7 +66,6 @@ export class MarkdownCellElement extends HTMLElement {
     this.shadowRoot!.innerHTML = html;
   }
 
-
   //#region public methods
   toJSON(): any {
     return {
@@ -122,69 +106,60 @@ export class MarkdownCellElement extends HTMLElement {
   disconnectedCallback(): void { 
     this.view.destroy();
   }
+
+  async render(){
+    const source = this.source;
+    console.log(source)
+    const html = await marked.parse( this.source );
+
+    const input = this.qs('.cell-editor');
+    const output = this.qs('.cell-output');
+
+    const previous = input.style.display;
+    input.style.display = 'none';
+    output.innerHTML = html;
+
+    output.addEventListener('dblclick', () => {
+      output.innerHTML = '';
+      this.source = source;
+      input.style.display = previous;
+    });
+  }
   //#endregion
 
   //#region private methods
   private setupCodeMirror(): void {
-    const clickableLinks = EditorView.domEventHandlers({
-      mousedown(event, view){
-        if(!(event.ctrlKey || event.metaKey)) return;
+    const cell = this;
 
-        let pos = view.posAtCoords({x: event.clientX, y: event.clientY});
-        if(pos === null) return;
-
-        let node = syntaxTree(view.state).resolveInner(pos, 1);
-        if(node.name === "URL" || node.name === "Link"){
-          let url = view.state.doc.sliceString(node.from, node.to);
-          window.open(url, '_blank');
+    function CtrlEnter(){
+      return keymap.of([{
+        key: "Ctrl-Enter",
+        run(){
+          cell.render();
           return true;
         }
-      }
-    });
+      }]);
+    }
 
-    this.view = new EditorView({
-      state: EditorState.create({
-        doc: '',
-        extensions: [
-          markdown(),
-          Prec.highest(keymap.of([{ key: "Enter", run: insertNewline}])),
-          keymap.of([ indentWithTab ]),
-          linkPlugin(),
-          imageField(),
-          codeBlockField(),
-          collapseOnSelectionFacet.of(true),
-          mouseSelectingField,
-          tabSize.of(EditorState.tabSize.of(2)),
-          clickableLinks,
-          tableField,
-          tableEditorPlugin(),
-          editorTheme,
-          EditorView.lineWrapping,
-          EditorView.theme({
-            "&.cm-focused": { outline: "none" }
-          }),
-          livePreviewPlugin,
-          markdownStylePlugin,
-          placeholder("Write here..."),
-          history(),
-          mathPlugin.extension,
-          blockMathField
-        ]
+    const extensions = [
+      EditorView.contentAttributes.of({
+        'aria-label': "Cell editor"
       }),
-      parent: this.qs('.cell-editor')!
-    });
+      CtrlEnter(),
+      basicSetup,
+      keymap.of([ indentWithTab ]),
+      language.of( markdown() ),
+      tabSize.of( EditorState.tabSize.of( 2 ) ),
+      EditorView.lineWrapping,
+      placeholder("Write here ...")
+    ];
 
-    this.view.contentDOM.addEventListener('mouseDown', (e) => {
-      this.view.dispatch({ effects: setMouseSelecting.of(true) });
+    const state = EditorState.create( { extensions } );
+    
+    this.view = new EditorView({
+      state, 
+      parent: this.qs('.cell-editor')
     });
-
-    document.addEventListener('mouseup', () => {
-      requestAnimationFrame(() => {
-        this.view.dispatch({ effects: setMouseSelecting.of(false) });
-      });
-    });
-
-    this.view.focus();
   }
   //#endregion
 }

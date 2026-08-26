@@ -3,6 +3,8 @@ import { MarkdownCellElement } from "../markdown-cell/markdown-cell.ts";
 import { TypescriptCellElement } from "../typescript-cell/typescript-cell.ts";
 
 type Runnable = JavascriptCellElement | TypescriptCellElement;
+type Renderable = MarkdownCellElement;
+type CellElement = Runnable | Renderable;
 
 export class CellActionsElement extends HTMLElement {
   //#region public properties
@@ -43,12 +45,15 @@ export class CellActionsElement extends HTMLElement {
     this.qs('.delete-cell')!.addEventListener('click', () => this.onDeleteCellClick());
     this.qs('.prepend-cell')!.addEventListener('click', () => this.onPrependCellClick());
     this.qs('.append-cell')!.addEventListener('click', () => this.onAppendCellClick());
+    this.qs('.run-cell').addEventListener('click', () => this.onRunClick());
+      
     const cell = this.getParent();
     if(cell instanceof JavascriptCellElement || cell instanceof TypescriptCellElement){
-      this.qs('.run-cell').addEventListener('click', () => this.onRunClick());
+      this.qs('.run-cell').innerText = 'Run';
       this.qs('.reset-cell').addEventListener('click', () => this.onResetCellClick());
     }else{
-      this.qs('.run-cell').parentElement?.remove();
+      this.qs('.run-cell').innerText = 'Render';
+      //this.qs('.run-cell').parentElement?.remove();
       this.qs('.reset-cell').parentElement?.remove();
     }
 
@@ -85,8 +90,24 @@ export class CellActionsElement extends HTMLElement {
     });
   }
 
+  isRunnable(cell: CellElement): boolean {
+    return cell instanceof JavascriptCellElement || cell instanceof TypescriptCellElement;
+  }
+
+  isRenderable(cell: CellElement): boolean {
+    return cell instanceof MarkdownCellElement;
+  }
+
   private onRunClick(): void {
-    (this.getParent() as Runnable)?.run();
+    const parentCell = this.getParent();
+
+    if(this.isRunnable(parentCell)){
+      (parentCell as Runnable).run();      
+    }
+
+    if(this.isRenderable(parentCell)){
+      (parentCell as Renderable).render();
+    }
   }
   //#endregion
 }
