@@ -1,55 +1,54 @@
-import { basicSetup, EditorView } from 'codemirror';
+import { basicSetup } from 'codemirror';
 import { EditorState, Compartment } from '@codemirror/state';
-import { keymap, placeholder } from '@codemirror/view';
+import { keymap, placeholder, EditorView } from '@codemirror/view';
 import { markdown } from '@codemirror/lang-markdown';
 import { indentWithTab } from '@codemirror/commands';
 import { marked } from 'marked';
-let language = new Compartment, tabSize = new Compartment;
+import katex from 'katex';
 
+let tabSize = new Compartment();
 
 export class MarkdownCellElement extends HTMLElement {
-  //#region public properties
   view!: EditorView;
   qs!: (query: string) => HTMLElement;
-  qsa!: (query: string) => NodeList;
+  qsa!: (query: string) => NodeListOf<Element>;
   ready: Promise<boolean>;
+  isRendered: boolean = false;
   
-  set source(val: string){
-    this.view?.dispatch({
-      changes: { 
-        from: 0, 
-        to: this.view.state.doc.length, 
-        insert: val 
-      }
-    });
+  set source(val: string) {
+    if (this.view) {
+      this.view.dispatch({
+        changes: { 
+          from: 0, 
+          to: this.view.state.doc.length, 
+          insert: val 
+        }
+      });
+    }
   }
 
   get source(): string {
-    return this.view.state.doc.toString();
+    return this.view ? this.view.state.doc.toString() : '';
   }
-  //#endregion
 
-  constructor(){
-    // Call parent constructor
+  constructor() {
     super();
+    this.attachShadow({ mode: "open" });
     
-    // attach shadowRoot
-    this.attachShadow({mode: "open"});
-    
-    // setup querySelector and querySelectorAll shorthands
     this.qs = this.shadowRoot!.querySelector.bind(this.shadowRoot);
-    this.qsa = this.shadowRoot!.querySelector.bind(this.shadowRoot);
+    this.qsa = this.shadowRoot!.querySelectorAll.bind(this.shadowRoot);
 
-    this.ready = new Promise(async (resolve, reject) => {
+    this.ready = new Promise(async (resolve) => {
       await this.setupUI();
       resolve(true);
-    })
+    });
   }
 
-  async setupUI(){
+  async setupUI() {
     await this.fetchStyle();
     await this.fetchTemplate();
     this.setupCodeMirror();
+    this.setupEvents();
   }
 
   async fetchStyle(): Promise<void> {
@@ -66,7 +65,74 @@ export class MarkdownCellElement extends HTMLElement {
     this.shadowRoot!.innerHTML = html;
   }
 
-  //#region public methods
+  private setupEvents(): void {
+    const output = this.qs('.cell-output');
+    const renderBtn = this.qs('.render-btn') || this.qs('#render') || this.qs('button');
+
+    // Toggle render when clicking the "Render" button below the cell
+    renderBtn?.addEventListener('click', () => this.toggleRender());
+
+    // Double-click output container to go back to editor mode
+    output?.addEventListener('dblclick', () => {
+      if (this.isRendered) {
+        this.toggleRender(false);
+      }
+    });
+  }
+
+  /**
+   * Toggles between raw Markdown editor and rendered HTML/KaTeX output
+   */
+  public toggleRender(forceState?: boolean): void {
+    this.isRendered = forceState !== undefined ? forceState : !this.isRendered;
+
+    const input = this.qs('.cell-editor');
+    const output = this.qs('.cell-output');
+
+    if (this.isRendered) {
+      // 1. Convert Markdown to HTML
+      const html = marked.parse(this.source) as string;
+      output.innerHTML = html;
+
+      // 2. Parse KaTeX Math ($$ block $$ and $ inline $)
+      output.querySelectorAll("*").forEach(el => {
+        if (el.children.length === 0 && el.textContent?.includes("$$")) {
+          el.innerHTML = el.innerHTML.replace(/\$\$([\s\S]+?)\$\$/g, (_, math) => {
+            try {
+              return katex.renderToString(math.trim(), { displayMode: true });
+            } catch (e) {
+              return `<span class="katex-error">${math}</span>`;
+            }
+          });
+        }
+
+        if (el.children.length === 0 && el.textContent?.includes("$")) {
+          el.innerHTML = el.innerHTML.replace(/\$([^\$\n]+?)\$/g, (_, math) => {
+            try {
+              return katex.renderToString(math.trim(), { displayMode: false });
+            } catch (e) {
+              return `<span class="katex-error">${math}</span>`;
+            }
+          });
+        }
+      });
+
+      // 3. Swap UI visibility
+      input.style.display = 'none';
+      output.style.display = 'block';
+    } else {
+      // Return to Editor
+      output.style.display = 'none';
+      input.style.display = 'block';
+      this.view.focus();
+    }
+  }
+
+  // Public method mapped to render button
+  render(): void {
+    this.toggleRender();
+  }
+
   toJSON(): any {
     return {
       "cell_type": "markdown",
@@ -77,25 +143,26 @@ export class MarkdownCellElement extends HTMLElement {
 
   static fromJSON(obj: any): MarkdownCellElement {
     const cell = new MarkdownCellElement();
-    cell.fromJSON(obj)
+    cell.fromJSON(obj);
     return cell;
   }
 
   fromJSON(obj: {source: string | string[]}): void {
     this.ready.then(() => {
-      if(typeof obj.source === 'string'){
+      if (typeof obj.source === 'string') {
         this.source = obj.source;
       }
-      if(Array.isArray(obj.source)){
-        this.source = obj.source.join('')
+      if (Array.isArray(obj.source)) {
+        this.source = obj.source.join('');
       }
-    })
+
+      this.render(true);
+    });
   }
 
   static fromString(str: string): MarkdownCellElement {
     const obj = JSON.parse(str);
-    const cell = MarkdownCellElement.fromJSON(obj);
-    return cell;
+    return MarkdownCellElement.fromJSON(obj);
   }
 
   fromString(str: string): void {
@@ -104,62 +171,36 @@ export class MarkdownCellElement extends HTMLElement {
   }
 
   disconnectedCallback(): void { 
-    this.view.destroy();
+    this.view?.destroy();
   }
 
-  async render(){
-    const source = this.source;
-    console.log(source)
-    const html = await marked.parse( this.source );
-
-    const input = this.qs('.cell-editor');
-    const output = this.qs('.cell-output');
-
-    const previous = input.style.display;
-    input.style.display = 'none';
-    output.innerHTML = html;
-
-    output.addEventListener('dblclick', () => {
-      output.innerHTML = '';
-      this.source = source;
-      input.style.display = previous;
-    });
-  }
-  //#endregion
-
-  //#region private methods
   private setupCodeMirror(): void {
     const cell = this;
 
-    function CtrlEnter(){
-      return keymap.of([{
-        key: "Ctrl-Enter",
-        run(){
-          cell.render();
-          return true;
-        }
-      }]);
-    }
+    const CtrlEnter = keymap.of([{
+      key: "Ctrl-Enter",
+      run() {
+        cell.toggleRender();
+        return true;
+      }
+    }]);
 
     const extensions = [
       EditorView.contentAttributes.of({
         'aria-label': "Cell editor"
       }),
-      CtrlEnter(),
+      CtrlEnter,
       basicSetup,
       keymap.of([ indentWithTab ]),
-      language.of( markdown() ),
       tabSize.of( EditorState.tabSize.of( 2 ) ),
       EditorView.lineWrapping,
-      placeholder("Write here ...")
+      placeholder("Write here..."),
+      markdown()
     ];
-
-    const state = EditorState.create( { extensions } );
     
     this.view = new EditorView({
-      state, 
+      state: EditorState.create({ extensions }), 
       parent: this.qs('.cell-editor')
     });
   }
-  //#endregion
 }
