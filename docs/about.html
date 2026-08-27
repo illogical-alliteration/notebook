@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang=en-US><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1.0"><meta name=description content="Client side JavaScript/TypeScript/Markdown Notebook"><title>Notebook</title><body>
+    <h1>About Javascript Notebook</h1>
+    <h2>Introduction</h2>
+    <p>
+      Welcome to the about page for <a href=https://apps.verticesandedges.net/notebook>apps.verticesandedges.net/notebook</a>. On this page, you'll find links to the privacy policy and terms of use, as well as a short description of the notebook's features.
+    </p>
+    <p>
+      Javascript Notebook is a Jupyter-style notebook, for browser side Javascript and Typescript. It does not send commands to a server and return the results to the notebook. Rather your commands are executed in your browser, and (unless you choose to save them via URL) never leave your computer.
+    </p>
+
+    <h2>Howto</h2>
+    <p>
+      The Javascript Notebook has three types of cells: 
+      <ul>
+        <li>Markdown Cells</li>
+        <li>Typescript Cells</li>
+        <li>Javascript Cells</li>
+      </ul>
+      You can switch between them at will. 
+    <p></p>
+    <p>
+      The Markdown Cell uses a live preview library (codemirror-live-markdown), which means you can just start typing markdown syntax, and it will render as you go. 
+      Beginning a line with "#" turns it into a header 1, beginning it with "##" turns it into a header 2, and so on. You can create links using "[display text](url)" syntax. To render math formulas using KaTeX, insert a code block by starting with three backticks, the word math, a new line your math formula and closing with three backticks.
+      Like this:
+      <pre>```math
+E = m c^2
+```</pre> which will render the square as a superscript to c as we're used to. 
+    <p></p>
+    <p>Typescript and Javascript cells (aka Code Cells) are executed as AsyncFunctions. They are functions, so to see a result use a "return xyz" statement", which also supports HTMLElements by simply appending them to the result output element. console.log and console.error are also supported.</p>
+
+    <h2>Legal</h2>
+    <h3>Privacy Policy</h3>
+    <p>Here you can find this Web Application's <a href=/notebook/privacy-policy.html>Privacy Policy</a>.</p>
+
+    <h3>Open Source Licenses</h3>
+    <p>Here you can find a list of used <a href=/notebook/licenses.html>open source libraries</a> and their licenses without which this project would have been impossible, and their licenses. We truly stand on the shoulders of giants.</p>
+  
