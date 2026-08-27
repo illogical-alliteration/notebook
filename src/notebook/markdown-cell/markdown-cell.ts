@@ -49,6 +49,7 @@ export class MarkdownCellElement extends HTMLElement {
     await this.fetchTemplate();
     this.setupCodeMirror();
     this.setupEvents();
+    this.view.focus();
   }
 
   async fetchStyle(): Promise<void> {
