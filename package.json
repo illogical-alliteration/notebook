@@ -23,7 +23,7 @@
     "main": false,
     "app": {
       "source": "src/index.html",
-      "distDir": "dist/"
+      "distDir": "docs/"
     }
   },
   "pluginOptions": {
