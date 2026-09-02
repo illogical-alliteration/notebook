@@ -75,7 +75,12 @@ export class CellActionsElement extends HTMLElement {
   }
 
   private onPrependCellClick(): void {
-    const cell = new MarkdownCellElement();
+    const CellType = this.getParent().constructor as 
+      typeof MarkdownCellElement | 
+      typeof JavascriptCellElement | 
+      typeof TypescriptCellElement;
+    
+    const cell = new CellType();
     cell.ready.then(() => {
       this.getParent().before(cell);
       cell.view.focus();
@@ -83,7 +88,12 @@ export class CellActionsElement extends HTMLElement {
   }
 
   private onAppendCellClick(): void {
-    const cell = new MarkdownCellElement();
+    const CellType = this.getParent().constructor as 
+      typeof MarkdownCellElement | 
+      typeof JavascriptCellElement | 
+      typeof TypescriptCellElement;
+    
+    const cell = new CellType();
     cell.ready.then(() => {
       this.getParent().after(cell);
       cell.view.focus();
