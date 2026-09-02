@@ -287,6 +287,7 @@ export class JavascriptCellElement extends HTMLElement {
     const notebook = (this.getRootNode() as any).host.closest('notebook-el') as NotebookElement;
     const context = {
       ...notebook.context,
+      cell: this,
       output: outputs,
       console: {
         log: (...args: string[]) => {

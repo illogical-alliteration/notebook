@@ -13,17 +13,17 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rm -rf .parcel-cache dist build",
+    "clean": "rm -rf .parcel-cache dist docs build" ,
     "build": "parcel build --public-url /notebook/",
-    "gh-pages": "parcel build --dist-dir docs/ --public-url /notebook/",
+    "gh-pages": "parcel build --public-url /notebook/ --dist-dir ./docs",
     "start": "parcel src/index.html --port 8080 --public-url /notebook/"
   },
-  "serviceWorker": "dist/sw.js",
+  "serviceWorker": "docs/sw.js",
+  "source": "src/index.html",
   "targets": {
     "main": false,
-    "app": {
-      "source": "src/index.html",
-      "distDir": "dist/"
+    "default": {
+      "distDir": "./docs/"
     }
   },
   "pluginOptions": {
