@@ -9,7 +9,7 @@
     "notebook"
   ],
   "license": "UNLICENSED",
-  "author": "Joshua M. Moore <illogical.alliteration@gmail.com>",
+  "author": "Joshua M. Moore <joshua.moore@verticesandedges.net>",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
