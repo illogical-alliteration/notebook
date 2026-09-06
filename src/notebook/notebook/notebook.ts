@@ -1,6 +1,7 @@
-import { JavascriptCellElement } from "../javascript-cell/javascript-cell.ts";
-import { MarkdownCellElement } from "../markdown-cell/markdown-cell.ts";
-import { TypescriptCellElement } from "../typescript-cell/typescript-cell.ts";
+import { JavascriptCellElement } from "../javascript-cell/javascript-cell";
+import { MarkdownCellElement } from "../markdown-cell/markdown-cell";
+import { TypescriptCellElement } from "../typescript-cell/typescript-cell";
+import "../notebook-actions/notebook-actions";
 
 export class NotebookElement extends HTMLElement {
   //#region public properties
@@ -33,6 +34,14 @@ export class NotebookElement extends HTMLElement {
         resolve(true);
       }catch(error){
         reject(error);
+      }
+    });
+  }
+
+  runAll(): void {
+    this.qsa('.cells>*').forEach(async cell => {
+      if(cell instanceof JavascriptCellElement || cell instanceof TypescriptCellElement){
+        await cell.run();
       }
     });
   }
@@ -92,6 +101,14 @@ export class NotebookElement extends HTMLElement {
     return notebook;
   }
 
+  clear(){
+    this.title = 'Untitled Notebook';
+    const cells = this.qs('.cells');
+    cells.innerHTML = '';
+    const jsCell = document.createElement('javascript-cell');
+    cells.appendChild(jsCell);
+  }
+
   fromJSON(obj: any, clearFirst: boolean=false): void {
     this.ready.then(() => {
       const cells = this.qs('.cells');
@@ -110,7 +127,7 @@ export class NotebookElement extends HTMLElement {
         if(spec.metadata.language === 'typescript') 
           cell = TypescriptCellElement.fromJSON(spec);
 
-        cells.appendChild(cell as any);
+        cells.appendChild(cell as HTMLElement);
       })
     });
   }
@@ -130,3 +147,4 @@ export class NotebookElement extends HTMLElement {
   }
   //#endregion
 }
+

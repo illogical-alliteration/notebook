@@ -1,9 +1,11 @@
 import { basicSetup, EditorView } from "codemirror";
 import { EditorState, Compartment } from "@codemirror/state";
-import { keymap, placeholder } from "@codemirror/view";
+import { keymap } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
 import { indentWithTab } from "@codemirror/commands";
-import { NotebookElement } from "../notebook/notebook.ts";
+import "../cell-type-selector/cell-type-selector";
+import "../cell-actions/cell-actions";
+import type { NotebookElement } from "../notebook/notebook";
 
 let language = new Compartment();
 let tabSize = new Compartment();
@@ -260,7 +262,6 @@ export class JavascriptCellElement extends HTMLElement {
           keymap.of([ indentWithTab ]),
           language.of( javascript({ typescript: false })),
           tabSize.of( EditorState.tabSize.of( 2 )),
-          placeholder('JavaScript code... for example: return 7 * 3;'),
           EditorView.lineWrapping
         ]
       }),

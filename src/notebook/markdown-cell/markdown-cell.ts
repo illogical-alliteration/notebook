@@ -1,6 +1,6 @@
 import { basicSetup } from 'codemirror';
 import { EditorState, Compartment } from '@codemirror/state';
-import { keymap, placeholder, EditorView } from '@codemirror/view';
+import { keymap, EditorView } from '@codemirror/view';
 import { markdown } from '@codemirror/lang-markdown';
 import { indentWithTab } from '@codemirror/commands';
 import { marked } from 'marked';
@@ -9,6 +9,7 @@ import katex from 'katex';
 let tabSize = new Compartment();
 
 export class MarkdownCellElement extends HTMLElement {
+  //#region public properties
   view!: EditorView;
   qs!: (query: string) => HTMLElement;
   qsa!: (query: string) => NodeListOf<Element>;
@@ -30,11 +31,16 @@ export class MarkdownCellElement extends HTMLElement {
   get source(): string {
     return this.view ? this.view.state.doc.toString() : '';
   }
+  //#endregion
 
-  constructor() {
+  constructor(){
+    // Call parent constructor
     super();
-    this.attachShadow({ mode: "open" });
     
+    // attach shadowRoot
+    this.attachShadow({mode: "open"});
+    
+    // setup querySelector and querySelectorAll shorthands
     this.qs = this.shadowRoot!.querySelector.bind(this.shadowRoot);
     this.qsa = this.shadowRoot!.querySelectorAll.bind(this.shadowRoot);
 
@@ -44,7 +50,7 @@ export class MarkdownCellElement extends HTMLElement {
     });
   }
 
-  async setupUI() {
+  async setupUI(){
     await this.fetchStyle();
     await this.fetchTemplate();
     this.setupCodeMirror();
@@ -150,11 +156,11 @@ export class MarkdownCellElement extends HTMLElement {
 
   fromJSON(obj: {source: string | string[]}): void {
     this.ready.then(() => {
-      if (typeof obj.source === 'string') {
+      if(typeof obj.source === 'string'){
         this.source = obj.source;
       }
-      if (Array.isArray(obj.source)) {
-        this.source = obj.source.join('');
+      if(Array.isArray(obj.source)){
+        this.source = obj.source.join('')
       }
 
       this.render(true);
@@ -174,7 +180,9 @@ export class MarkdownCellElement extends HTMLElement {
   disconnectedCallback(): void { 
     this.view?.destroy();
   }
+  //#endregion
 
+  //#region private methods
   private setupCodeMirror(): void {
     const cell = this;
 
@@ -195,7 +203,6 @@ export class MarkdownCellElement extends HTMLElement {
       keymap.of([ indentWithTab ]),
       tabSize.of( EditorState.tabSize.of( 2 ) ),
       EditorView.lineWrapping,
-      placeholder("Write here..."),
       markdown()
     ];
     
@@ -204,4 +211,5 @@ export class MarkdownCellElement extends HTMLElement {
       parent: this.qs('.cell-editor')
     });
   }
+  //#endregion
 }

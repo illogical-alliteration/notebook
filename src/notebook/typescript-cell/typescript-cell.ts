@@ -1,9 +1,11 @@
 import { basicSetup, EditorView } from "codemirror";
 import { EditorState, Compartment } from "@codemirror/state";
-import { keymap, placeholder } from "@codemirror/view";
+import { keymap } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
 import { indentWithTab } from "@codemirror/commands";
-import { NotebookElement } from "../notebook/notebook.ts";
+import "../cell-type-selector/cell-type-selector";
+import "../cell-actions/cell-actions";
+import type { NotebookElement } from "../notebook/notebook";
 import * as ts from "typescript"
 
 let language = new Compartment();
@@ -254,7 +256,6 @@ export class TypescriptCellElement extends HTMLElement {
           keymap.of([ indentWithTab ]),
           language.of( javascript({ typescript: true })),
           tabSize.of( EditorState.tabSize.of( 2 )),
-          placeholder('TypeScript code...'),
           EditorView.lineWrapping
         ]
       }),
@@ -305,7 +306,7 @@ export class TypescriptCellElement extends HTMLElement {
       compact: false
     }).outputText;
 
-    const func = new AsyncFunction( ...Object.keys( context ), `
+    const func = new (AsyncFunction as any)( ...Object.keys( context ), `
       try{
         ${source}
       }catch(e){
@@ -322,8 +323,8 @@ export class TypescriptCellElement extends HTMLElement {
     if(!indicator){
       const outputs = this.qs('.cell-outputs');
       indicator = document.createElement('output');
-      indicator.classList.add('cell-output', 'indicator')
-      outputs.prepend(indicator);
+      indicator.classList.add('cell-output', 'indicator');
+      outputs!.prepend(indicator);
     }
     
     let i = 0;
@@ -342,3 +343,4 @@ export class TypescriptCellElement extends HTMLElement {
   }
   //#endregion 
 }
+

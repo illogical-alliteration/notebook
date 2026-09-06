@@ -1,6 +1,6 @@
-import { JavascriptCellElement } from "../javascript-cell/javascript-cell.ts";
-import { MarkdownCellElement } from "../markdown-cell/markdown-cell.ts";
-import { TypescriptCellElement } from "../typescript-cell/typescript-cell.ts";
+import { JavascriptCellElement } from "../javascript-cell/javascript-cell";
+import { MarkdownCellElement } from "../markdown-cell/markdown-cell";
+import { TypescriptCellElement } from "../typescript-cell/typescript-cell";
 
 type Runnable = JavascriptCellElement | TypescriptCellElement;
 type Renderable = MarkdownCellElement;
@@ -53,7 +53,6 @@ export class CellActionsElement extends HTMLElement {
       this.qs('.reset-cell').addEventListener('click', () => this.onResetCellClick());
     }else{
       this.qs('.run-cell').innerText = 'Render';
-      //this.qs('.run-cell').parentElement?.remove();
       this.qs('.reset-cell').parentElement?.remove();
     }
 
