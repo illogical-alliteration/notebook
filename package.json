@@ -16,8 +16,8 @@
     "clean": "rm -rf .parcel-cache docs build" ,
     "build": "parcel build --dist-dir docs/ --public-url /notebook/",
     "gh-pages": "parcel build --dist-dir docs/ --public-url /notebook/ --dist-dir ./docs",
-    "start": "parcel src/index.html --dist-dir docs/ --dist-dir docs/ --port 8080 --public-url /notebook/",
-    "serve": "http-server docs/"
+    "start": "parcel src/index.html --dist-dir docs/ --port 8080 --public-url /notebook/",
+    "serve": "http-server docs/ --public-url /notebook/"
   },
   "serviceWorker": "docs/sw.js",
   "source": "src/index.html",
