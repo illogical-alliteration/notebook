@@ -19,8 +19,25 @@ fieldset.cell-outputs {
   border: none;
 }
 
+fieldset {
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+
+cell-type { 
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 0;
+}
+
+cell-actions {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 hr {
   border: none;
-  height: 1px;
-  background-image: linear-gradient(to right, transparent, #000, transparent);
+  height: 0px;
+  border-bottom: 1px solid gray;
 }

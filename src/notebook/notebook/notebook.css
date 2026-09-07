@@ -80,3 +80,9 @@ notebook-actions:first-of-type {
 notebook-actions:last-of-type {
   margin-top: 15px;
 }
+
+hr {
+  border: none;
+  height: 1px;
+  border-bottom: 1px solid gray;
+}

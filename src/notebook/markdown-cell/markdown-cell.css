@@ -8,31 +8,17 @@
   --bg-color: 0xffffff;
 }
 
+/*
 section.cell.markdown-cell {
   display: flex;
   flex-direction: column;
   position: relative;
 }
+*/
 
-fieldset {
+fieldset.cell-outputs {
+  outline: none;
   border: none;
-}
-
-fieldset.cell-actions {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  font-size: var(--font-size);
-}
-
-.cell-actions button {
-  margin: 0;
-  border: 0;
-  padding: 0;
-
-  color: var(--ui-color);
-  background-color: var(--bg-color);
-  font-size: var(--font-size);
 }
 
 fieldset {
@@ -42,28 +28,24 @@ fieldset {
 }
 
 cell-type { 
-  margin-top: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding-top: 0;
 }
 
-.cell-editor {
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+cell-actions {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
+
 
 hr {
   border: none;
   height: 1px;
-  background-image: linear-gradient(to right, transparent, #000, transparent);
+  border-bottom: 1px solid gray;
 }
 
 
 .katex-html {
   display: none;
-}
-
-math {
-  font-size: 24px;
 }
