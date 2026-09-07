@@ -15,7 +15,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf .parcel-cache docs build" ,
     "build": "parcel build --dist-dir docs/ --public-url /notebook/",
-    "gh-pages": "parcel build --dist-dir docs/ --public-url /notebook/ --dist-dir ./docs",
+    "gh-pages": "parcel build --dist-dir docs/ --public-url /notebook/",
     "start": "parcel src/index.html --dist-dir docs/ --port 8080 --public-url /notebook/",
     "serve": "http-server docs/ --public-url /notebook/"
   },

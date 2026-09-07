@@ -298,6 +298,12 @@ export class JavascriptCellElement extends HTMLElement {
         error: (...args: string[]) => {
           this.error(...args);
           console.error(...args);
+        },
+        assert(...args: []){
+          if(!args[0] as unknown as boolean){
+            throw new Error(args[1] as unknown as string);
+            console.assert(...args);
+          }
         }
       }
     }
