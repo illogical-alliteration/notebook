@@ -131,15 +131,17 @@ export class NotebookAppElement extends HTMLElement {
     };
 
     open.onsuccess = (event) => {
+      let db, transaction; 
       try{
-        const db = event.target.result;
-        const transaction = db.transaction(['notebookStore'], "readwrite");
+        db = event.target.result;
+        transaction = db.transaction(['notebookStore'], "readwrite");
         const store = transaction.objectStore("notebookStore");
         // const index = store.index("notebookTitleIndex");
 
         store.put(notebook.toJSON());
       }catch(error){
         alert("Error saving notebook, you can try to reset the cells and save again.");
+        return;
       }
 
       transaction.oncomplete = () => {
